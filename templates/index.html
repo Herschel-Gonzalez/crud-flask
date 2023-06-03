@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLASK CRUD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+
+      function modificar(id,nombre,email) {
+        document.getElementById('divModificar').style.display='block';
+       document.getElementById('correoModificar').value=email;
+       document.getElementById('nombreModificar').value=nombre;
+       document.getElementById('formModificar').action=`/modify_user/${id}`;
+      }
+      
+        
+        
+    </script>
+</head>
+<body>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="body">
+          {% for i in range(users|length) %}
+        <tr>
+          <th scope="row">{{ users[i][0] }}</th>
+          <td>{{ users[i][1] }}</td>
+          <td>{{ users[i][2] }}</td>
+          <td><a href="/delete_user/{{users[i][0]}}" class="btn btn-danger">Eliminar</a>  <a onclick="modificar('{{users[i][0]}}','{{users[i][1]}}','{{users[i][2]}}')" class="btn btn-warning">Modificar</a></td>
+        </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <form method="POST" action="/add_user">
+        <div class="mb-3">
+          <label for="correo" class="form-label">Correo</label>
+          <input type="email" class="form-control" name="correo" id="correo" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" name="nombre" id="nombre">
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+      </form>
+      
+    <div style="display: none;" id="divModificar">
+      <form method="POST" id="formModificar" action="">
+        <div class="mb-3">
+          <label for="correo" class="form-label">Correo</label>
+          <input type="email" class="form-control" name="correo" id="correoModificar" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" name="nombre" id="nombreModificar">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </form>
+    </div>
+</body>
+</html>
